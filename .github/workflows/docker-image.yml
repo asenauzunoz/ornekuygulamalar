@@ -17,7 +17,7 @@ jobs:
     - name: Build Backend Docker Image
       run: | 
         cd react-express-mongodb/backend
-        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/backend:latest   
+        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/backend:latest .
 
     - name: Pushhh Backend Docker Image
       run: |
