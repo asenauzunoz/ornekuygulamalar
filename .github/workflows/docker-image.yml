@@ -1,0 +1,36 @@
+name: Release Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:    
+    - name: Check Repo
+    - uses: actions/Checkout@v2
+    
+    - name: Build Backend Docker Image
+    - run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/backend:${{ github.sha }} ./backend    
+
+    - name: Pushhh Backend Docker Image
+    - run:  |
+        docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+        docker push ${{ secrets.DOCKERHUB_USERNAME }}/backend:${{ github.sha }}
+        
+    - name: Build Frontend Docker Image 
+    - run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/frontend:${{ github.sha }} ./frontend      
+
+    - name: Pushh Frontend Docker Image
+    - run: |
+        docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+        docker push ${{ secrets.DOCKERHUB_USERNAME }}/frontend:${{ github.sha }}
+
+
+    
