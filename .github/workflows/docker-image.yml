@@ -28,13 +28,13 @@ jobs:
     - name: Build Frontend Docker Image 
       run: |
         cd react-express-mongodb/frontend
-        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/frontend:latest     
+        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/frontend:latest .   
 
     - name: Pushh Frontend Docker Image
       run: |
         cd react-express-mongodb/frontend
         docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
-        docker push ${{ secrets.DOCKERHUB_USERNAME }}/frontend:latest
+        docker push ${{ secrets.DOCKERHUB_USERNAME }}/frontend:latest 
 
 
     
