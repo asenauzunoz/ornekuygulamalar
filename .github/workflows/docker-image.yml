@@ -17,24 +17,24 @@ jobs:
     - name: Build Backend Docker Image
       run: | 
         cd react-express-mongodb/backend
-        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/backend:${{ github.sha }} ./backend    
+        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/backend:latest   
 
     - name: Pushhh Backend Docker Image
       run: |
         cd react-express-mongodb/backend
         docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
-        docker push ${{ secrets.DOCKERHUB_USERNAME }}/backend:${{ github.sha }}
+        docker push ${{ secrets.DOCKERHUB_USERNAME }}/backend:latest
         
     - name: Build Frontend Docker Image 
       run: |
         cd react-express-mongodb/frontend
-        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/frontend:${{ github.sha }} ./frontend      
+        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/frontend:latest     
 
     - name: Pushh Frontend Docker Image
       run: |
         cd react-express-mongodb/frontend
         docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
-        docker push ${{ secrets.DOCKERHUB_USERNAME }}/frontend:${{ github.sha }}
+        docker push ${{ secrets.DOCKERHUB_USERNAME }}/frontend:latest
 
 
     
