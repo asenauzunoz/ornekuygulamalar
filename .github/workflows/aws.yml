@@ -1,0 +1,33 @@
+name: Deploy to EKS
+
+on:
+  workflow_dispatch: # Sadece manuel tetikleme
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: eu-west-3
+        
+    - name: Install kubectl
+      run: |
+        curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
+        chmod +x ./kubectl
+        sudo mv ./kubectl /usr/local/bin
+
+    - name: Update kubeconfig
+      run: |
+        aws eks update-kubeconfig --region eu-west-3 --name pc-eks
+
+    - name: Deploy to EKS
+      run: |
+        kubectl apply -f k8s/aws.yaml
